@@ -145,11 +145,17 @@ function Invoke-DiscordHook {
     begin{
         $PSDiscordPath = "$($env:LOCALAPPDATA)\PS-Discord"
         $PSDiscordPath_Hooks = "$($PSDiscordPath)\Hooks"
-        foreach ($Hook in (Get-ChildItem -Path $PSDiscordPath_Hooks -Recurse)) {
-            if ($Hook.Name -like ("$($Name).hook")) {
-                $URL = Get-Content -Path "$($PSDiscordPath_Hooks)\$($Name).hook"
+        if(($null -eq $URL) -or ($URL -eq '')){
+            foreach ($Hook in (Get-ChildItem -Path $PSDiscordPath_Hooks -Recurse)) {
+                if ($Hook.Name -like ("$($Name).hook")) {
+                    $URL = Get-Content -Path "$($PSDiscordPath_Hooks)\$($Name).hook"
+                    $HookFound = $true
+                }
             }
+        }else{
+            $HookFound = $true
         }
+        if(!($HookFound)){throw "Unable to locate Preset WebHook URL."}
         $Pre_Payload = 
 @"
 $($Value)
@@ -161,7 +167,7 @@ $($Value)
     }
     process{
         try {
-            Invoke-RestMethod -uri $URL -Method Post -Body ($Payload | ConvertTo-Json) -ContentType 'Application/Json'
+            Invoke-RestMethod -uri $URL -Method Post -Body ($Payload | ConvertTo-Json) -ContentType 'Application/Json' | Out-Null
             $ReturnValue = $true
         }
         catch {
