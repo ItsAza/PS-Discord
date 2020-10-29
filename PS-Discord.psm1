@@ -15,7 +15,7 @@
 #>
 function New-DiscordHook {
     [CmdletBinding(DefaultParameterSetName='Parameter Set 1',
-                   HelpUri = 'http://www.microsoft.com/',
+                   HelpUri = 'https://github.com/ItsAza/PS-Discord',
                    ConfirmImpact='Medium')]
     [Alias("New-dhook")]
     [OutputType([Boolean])]
@@ -106,7 +106,7 @@ function New-DiscordHook {
 #>
 function Invoke-DiscordHook {
     [CmdletBinding(DefaultParameterSetName='Parameter Set 1',
-                   HelpUri = 'http://www.microsoft.com/',
+                   HelpUri = 'https://github.com/ItsAza/PS-Discord',
                    ConfirmImpact='Medium')]
     [Alias("Invoke-dhook")]
     [OutputType([Boolean])]
